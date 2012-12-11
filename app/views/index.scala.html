@@ -1,0 +1,21 @@
+@()
+@import utils.{DemoData, ModuleManager}
+
+@main("Modular UI Demo", None) {
+
+    <div class="alert alert-success"><strong>All Modules</strong> @DemoData.modules.map(_.id).mkString(" ")</div>
+    
+    <div class="alert alert-info"><strong>Everyone can access:</strong> @ModuleManager.globalModules.map(_.id).mkString(" ")</div>
+    
+    <h1>Pick a user to sign in as:</h1>
+    
+    @for(organization <- DemoData.organizations) {
+        <h3>@organization.name <span class="label label-info" style="font-size: inherit; line-height: normal"><strong>Can access:</strong> @organization.modules.mkString(" ")</span></h3>
+        <ul>
+            @for(user <- organization.users) {
+                <li><a href="@controllers.routes.Application.app(organization.id, user.id)">@user.name</a> <span class="label">Can access: @user.modules.mkString(" ")</span></li>
+            }
+        </ul>
+    }
+    
+}

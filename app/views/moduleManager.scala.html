@@ -1,0 +1,27 @@
+@(organization: Organization, user: User, modules: Seq[Module])
+
+@main(organization.name, Some(user)) {
+    <ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a href="#home">Home</a></li>
+        @for(module <- modules) {
+            <li><a href="#@module.id">@module.name</a></li>
+        }
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="home">hello, world!</div>
+        @for(module <- modules) {
+            <div class="tab-pane" id="@module.id">@module.template.render</div>
+        }
+    </div>
+    
+    <script>
+        $(function() {
+            $('#myTab a').click(function (e) {
+                e.preventDefault()
+                $(this).tab('show')
+            })
+        })
+    </script>
+    
+}
